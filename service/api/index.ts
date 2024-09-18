@@ -1,5 +1,7 @@
 const getUrl = () => {
-    return 'http://localhost:8080';
+    const url = 'http://localhost:8081';
+    return {url}
 }
+
 
 export {getUrl}

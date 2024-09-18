@@ -1,12 +1,17 @@
+'use client';
+
+import {useEffect, useState} from "react";
 import Header from "@/components/Header";
+import SideBar from "@/components/SideBar";
 
 const Dashboard = () => {
+    const [isCollapsed, setIsCollapsed] = useState(false);
+
     return (
         <>
-            <Header/>
-            <h1>Dashboard</h1>
+
         </>
-    )
-}
+    );
+};
 
 export default Dashboard;

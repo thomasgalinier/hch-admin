@@ -4,12 +4,12 @@ import {Card, CardContent, CardDescription, CardHeader, CardTitle} from "@/compo
 import {Form, FormControl, FormField, FormItem, FormLabel} from "@/components/ui/form";
 import {useForm} from "react-hook-form";
 import {zodResolver} from "@hookform/resolvers/zod";
-import {SignInSchema} from "@/schema";
+import {ErrorType, SignInSchema} from "@/schema";
 import {Input} from "@/components/ui/input";
 import {Button} from "@/components/ui/button";
-import {z} from "zod";
+import {undefined, z} from "zod";
 import {useMutation} from "@tanstack/react-query";
-import {signinAdmin, useMe} from "@/service/api/auth";
+import {signinAdmin, useMe} from "@/service/auth";
 import {useCookies} from "react-cookie";
 import {useRouter} from "next/navigation";
 
@@ -17,6 +17,8 @@ import {useRouter} from "next/navigation";
 const Signin = () => {
     const router = useRouter();
     const [cookies, setCookie] = useCookies(['token']);
+    // @ts-ignore
+    const [error, setError] = useState<ErrorType>({});
     const {data: user} = useMe(cookies.token);
     const form = useForm({
         resolver: zodResolver(SignInSchema),
@@ -31,6 +33,11 @@ const Signin = () => {
         mutationFn: signinAdmin,
         mutationKey: ['me'],
         onSuccess: (data) => {
+            if (data.error) {
+                console.log(data)
+                setError(data);
+                return;
+            }
             const {token} = data;
             setCookie('token', token);
             router.replace('/dashboard',);
@@ -83,6 +90,7 @@ const Signin = () => {
                             </div>
                         </form>
                     </Form>
+                    {error && <p className='text-red-500'>{error?.message}</p>}
                 </CardContent>
             </Card>
         </div>
