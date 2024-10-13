@@ -1,5 +1,5 @@
 'use client'
-import {usePathname, useRouter} from "next/navigation";
+import {usePathname} from "next/navigation";
 import {
     Breadcrumb,
     BreadcrumbItem,
@@ -7,25 +7,22 @@ import {
     BreadcrumbList,
     BreadcrumbSeparator
 } from "@/components/ui/breadcrumb";
-import {useId} from "react";
 
 const Header = () => {
     const path = usePathname();
     const pathSegments = path.split('/').filter(segment => segment);
-    const id = useId();
+
     return (
         <header className="p-4">
             <Breadcrumb>
-                <BreadcrumbList id={id}>
+                <BreadcrumbList>
                     {pathSegments.map((segment, index) => (
-                        <>
-                            <BreadcrumbItem key={index}>
-                                <BreadcrumbLink href={`/${segment}`}>
-                                    {segment}
-                                </BreadcrumbLink>
-                            </BreadcrumbItem>
-                            <BreadcrumbSeparator/>
-                        </>
+                        <BreadcrumbItem key={`${segment}-${index}`}>
+                            <BreadcrumbLink href={`/${pathSegments.slice(0, index + 1).join('/')}`}>
+                                {segment}
+                            </BreadcrumbLink>
+                            {index < pathSegments.length - 1 && <BreadcrumbSeparator />}
+                        </BreadcrumbItem>
                     ))}
                 </BreadcrumbList>
             </Breadcrumb>

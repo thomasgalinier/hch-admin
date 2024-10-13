@@ -2,7 +2,7 @@ import {z} from "zod";
 import {SignInSchema, SignUpSchema, UserType, AllDataSignUp} from "@/schema";
 import {getUrl} from "@/service/api";
 import {useQuery, UseQueryResult} from "@tanstack/react-query";
-import {useCookies} from "react-cookie";
+
 
 
 const {url} = getUrl();

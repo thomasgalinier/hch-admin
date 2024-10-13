@@ -12,6 +12,7 @@ import {signupAdmin} from "@/service/auth";
 import {ToastAction} from "@/components/ui/toast";
 import {useToast} from "@/hooks/use-toast"; // Import the toast hook
 import {useCookies} from "react-cookie";
+import {Select, SelectContent, SelectItem, SelectTrigger, SelectValue} from "@/components/ui/select";
 
 const CreateAdmin = () => {
     const [cookies] = useCookies(['token']);
@@ -23,7 +24,7 @@ const CreateAdmin = () => {
             prenom: "",
             email: "",
             password: "",
-            role: "ADMIN",
+            role: "",
             telephone: "",
         },
     });
@@ -131,6 +132,27 @@ const CreateAdmin = () => {
                                         </FormItem>
                                     )}
                                 />
+                                <FormField
+                                    control={form.control}
+                                    name="role"
+                                    render={({field}) => (
+                                        <FormItem>
+                                            <FormLabel>Rôle</FormLabel>
+                                            <Select onValueChange={field.onChange} defaultValue={field.value}>
+                                                <FormControl>
+                                                    <SelectTrigger>
+                                                        <SelectValue placeholder="Rôle"/>
+                                                    </SelectTrigger>
+                                                </FormControl>
+                                                <SelectContent>
+                                                    <SelectItem value="ADMIN">Admin</SelectItem>
+                                                    <SelectItem value="TECHNICIEN">Technicien</SelectItem>
+                                                    <SelectItem value="CLIENT">Client</SelectItem>
+                                                </SelectContent>
+                                            </Select>
+                                        </FormItem>
+                                    )}
+                                    />
                                 <Button className="w-full mt-4" type="submit">
                                     Créer
                                 </Button>

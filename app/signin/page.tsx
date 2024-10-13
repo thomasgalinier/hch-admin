@@ -16,7 +16,7 @@ import {useRouter} from "next/navigation";
 
 const Signin = () => {
     const router = useRouter();
-    const [cookies, setCookie] = useCookies(['token']);
+    const [cookies, setCookie, ] = useCookies(['token']);
     // @ts-ignore
     const [error, setError] = useState<ErrorType>({});
     const {data: user} = useMe(cookies.token);
