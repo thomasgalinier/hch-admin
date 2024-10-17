@@ -27,12 +27,12 @@ import {
 } from "@/components/ui/alert-dialog";
 import Link from "next/link";
 import DialogUptadateUser from "@/components/DialogUptadateUser";
-import {Dialog, DialogContent, DialogTrigger} from "@/components/ui/dialog";
+import { Dialog, DialogTrigger } from "@/components/ui/dialog";
 
 const Comptes = () => {
   const [cookies] = useCookies(["token"]);
-  const { data = [] } = useQuery<UserType[]>({
-    queryKey: ["user"],
+  const { data = [], refetch } = useQuery<UserType[]>({
+    queryKey: ["user", 'update'],
     queryFn: () => getAll(cookies.token),
   });
   const deleteUserMutation = useMutation({
@@ -83,12 +83,17 @@ const Comptes = () => {
       id: "actions",
       header: "Actions",
       cell: ({ row }) => {
+        const user = row.original;
         return (
           <Dialog>
             <DialogTrigger asChild>
-              <Button variant="link">Modifier</Button>
+              <Button
+                variant="link"
+              >
+                Modifier
+              </Button>
             </DialogTrigger>
-            <DialogUptadateUser />
+            <DialogUptadateUser user={user} refetch={refetch} />
           </Dialog>
         );
       },
@@ -104,7 +109,7 @@ const Comptes = () => {
     .flatRows.map((row) => row.original);
   const handleDeleteUsers = () => {
     selectedRows.forEach((user) => {
-      deleteUserMutation.mutate(user.id);
+      deleteUserMutation.mutate(user?.id!);
     });
   };
   return (

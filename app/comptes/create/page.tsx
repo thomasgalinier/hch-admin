@@ -14,7 +14,7 @@ import {useToast} from "@/hooks/use-toast"; // Import the toast hook
 import {useCookies} from "react-cookie";
 import {Select, SelectContent, SelectItem, SelectTrigger, SelectValue} from "@/components/ui/select";
 
-const CreateAdmin = () => {
+const CreateUser = () => {
     const [cookies] = useCookies(['token']);
     const {toast} = useToast(); // Initialize the toast hook
     const form = useForm({
@@ -33,17 +33,15 @@ const CreateAdmin = () => {
     const mutation = useMutation({
         mutationFn: signupAdmin,
         mutationKey: ['admin', 'sign'],
-        onSuccess: (data) => {
-            console.log(data)
-            // Show a success toast when the admin is successfully created
+        onSuccess: (data) => {// Show a success toast when the admin is successfully created
             data.error ?
                 toast({
-                    title: "Erreur lors de la création de l'admin",
+                    title: "Erreur lors de la création du user",
                     action: <ToastAction altText="Close">OK</ToastAction>,
                     variant: "destructive",
                 }) :
                 toast({
-                    title: 'Admin crée avec succés',
+                    title: 'User crée avec succés',
                     action: <ToastAction altText="Close">OK</ToastAction>,
                 });
         },
@@ -138,7 +136,7 @@ const CreateAdmin = () => {
                                     render={({field}) => (
                                         <FormItem>
                                             <FormLabel>Rôle</FormLabel>
-                                            <Select onValueChange={field.onChange} defaultValue={field.value}>
+                                            <Select onValueChange={field.onChange}>
                                                 <FormControl>
                                                     <SelectTrigger>
                                                         <SelectValue placeholder="Rôle"/>
@@ -165,4 +163,4 @@ const CreateAdmin = () => {
     );
 };
 
-export default CreateAdmin;
+export default CreateUser;

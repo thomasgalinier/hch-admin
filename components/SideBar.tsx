@@ -42,11 +42,11 @@ const SideBar = ({ isCollapsed, setIsCollapsed }: SideBarProps) => {
   };
 
   return (
-    <TooltipProvider>
-      <aside
-        data-collapse={isCollapsed}
-        className="fixed inset-y-0 left-0 z-10 hidden flex-col border-r bg-background sm:flex w-56 transition-all duration-300 ease-in-out data-[collapse=true]:w-20"
-      >
+    <aside
+      data-collapse={isCollapsed}
+      className="fixed inset-y-0 left-0 z-10 hidden flex-col border-r bg-background sm:flex w-56 transition-all duration-300 ease-in-out data-[collapse=true]:w-20"
+    >
+      <TooltipProvider>
         {!isCollapsed ? (
           <div className="flex items-center px-2 py-4 justify-between">
             {!isCollapsed && <Bike size={40} color="#557C56" />}
@@ -162,8 +162,8 @@ const SideBar = ({ isCollapsed, setIsCollapsed }: SideBarProps) => {
             )}
           </Tooltip>
         </nav>
-      </aside>
-    </TooltipProvider>
+      </TooltipProvider>
+    </aside>
   );
 };
 
