@@ -1,4 +1,4 @@
-import { Bike, Home, LogOut, PanelLeft, Plus, Users } from "lucide-react";
+import { Bike, Home, LogOut, Map, PanelLeft, Plus, Users } from "lucide-react";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { useCookies } from "react-cookie";
@@ -25,20 +25,26 @@ interface SideBarProps {
   isCollapsed: boolean;
   setIsCollapsed: (value: boolean) => void;
 }
+export const routes = {
+  comptes: { main: "/dashboard/comptes", create: "/dashboard/comptes/create" },
+  carte: { main: "/dashboard/carte" },
+  dashboard: { main: "/dashboard" },
+};
 
 const SideBar = ({ isCollapsed, setIsCollapsed }: SideBarProps) => {
   const [cookies, _setCookie, removeCookie] = useCookies(["token"]);
   const { data: user, isLoading } = useMe(cookies.token);
   const router = useRouter();
   const path = usePathname();
+  console.log(path);
 
-  if (!user && !isLoading) {
-    router.replace("/signin");
+  if (!user && !isLoading ) {
+    router.replace("/auth/signin");
   }
 
   const logout = () => {
     removeCookie("token");
-    router.replace("/signin");
+    router.replace("/auth/signin");
   };
 
   return (
@@ -67,7 +73,7 @@ const SideBar = ({ isCollapsed, setIsCollapsed }: SideBarProps) => {
                   </DropdownMenuTrigger>
                   <DropdownMenuContent>
                     <DropdownMenuItem className="cursor-pointer">
-                      <Link href={"/comptes/create"}>
+                      <Link href={routes.comptes.create}>
                         Ajouter un utilisateur
                       </Link>
                     </DropdownMenuItem>
@@ -116,10 +122,10 @@ const SideBar = ({ isCollapsed, setIsCollapsed }: SideBarProps) => {
               <Button
                 data-collapse={isCollapsed}
                 className="w-full flex justify-start gap-5 data-[collapse=true]:justify-center"
-                variant={path === "/dashboard" ? "secondary" : "ghost"}
+                variant={path === routes.dashboard.main ? "secondary" : "ghost"}
                 asChild
               >
-                <Link href="/dashboard">
+                <Link href={routes.dashboard.main}>
                   <Home size={isCollapsed ? 20 : 15} />
                   <p
                     data-collapse={isCollapsed}
@@ -141,10 +147,10 @@ const SideBar = ({ isCollapsed, setIsCollapsed }: SideBarProps) => {
               <Button
                 data-collapse={isCollapsed}
                 className="w-full flex justify-start gap-5 data-[collapse=true]:justify-center"
-                variant={path === "/comptes" ? "secondary" : "ghost"}
+                variant={path === routes.comptes.main ? "secondary" : "ghost"}
                 asChild
               >
-                <Link href="/comptes">
+                <Link href={routes.comptes.main}>
                   <Users size={isCollapsed ? 20 : 15} />
                   <p
                     data-collapse={isCollapsed}
@@ -158,6 +164,31 @@ const SideBar = ({ isCollapsed, setIsCollapsed }: SideBarProps) => {
             {isCollapsed && (
               <TooltipContent>
                 <p>Comptes</p>
+              </TooltipContent>
+            )}
+          </Tooltip>
+          <Tooltip>
+            <TooltipTrigger asChild>
+              <Button
+                data-collapse={isCollapsed}
+                className="w-full flex justify-start gap-5 data-[collapse=true]:justify-center"
+                variant={path === routes.carte.main ? "secondary" : "ghost"}
+                asChild
+              >
+                <Link href={routes.carte.main}>
+                  <Map size={isCollapsed ? 20 : 15} />
+                  <p
+                    data-collapse={isCollapsed}
+                    className="text-xs data-[collapse=true]:hidden"
+                  >
+                    Carte
+                  </p>
+                </Link>
+              </Button>
+            </TooltipTrigger>
+            {isCollapsed && (
+              <TooltipContent>
+                <p>Carte</p>
               </TooltipContent>
             )}
           </Tooltip>

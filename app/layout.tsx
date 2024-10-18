@@ -29,25 +29,25 @@ export default function RootLayout({
       />
       <QueryClientProvider client={queryClient}>
         <body className={`${inter.className}`}>
-          {path === "/signin" ? null : (
-            <div className=" h-screen">
-              <SideBar
-                isCollapsed={isCollapsed}
-                setIsCollapsed={setIsCollapsed}
-              />
+        {/*  {path === "/signin" ? null : (*/}
+        {/*    <div className=" h-screen">*/}
+        {/*      <SideBar*/}
+        {/*        isCollapsed={isCollapsed}*/}
+        {/*        setIsCollapsed={setIsCollapsed}*/}
+        {/*      />*/}
 
-              {/* Main Content */}
-              <div
-                data-collapse={isCollapsed}
-                className="p-2 overflow-auto  h-full ml-56 data-[collapse=true]:ml-20"
-              >
-                <Header />
+        {/*      /!* Main Content *!/*/}
+        {/*      <div*/}
+        {/*        data-collapse={isCollapsed}*/}
+        {/*        className="p-2 overflow-auto  h-full ml-56 data-[collapse=true]:ml-20"*/}
+        {/*      >*/}
+        {/*        <Header />*/}
                 {children}
-                <Toaster />
-              </div>
-            </div>
-          )}
-          {path === "/signin" && children}
+          {/*      <Toaster />*/}
+          {/*    </div>*/}
+          {/*  </div>*/}
+          {/*)}*/}
+          {/*{path === "/signin" && children}*/}
         </body>
       </QueryClientProvider>
     </html>

@@ -32,8 +32,8 @@ const CreateUser = () => {
     // Define the mutation with onSuccess and onError
     const mutation = useMutation({
         mutationFn: signupAdmin,
-        mutationKey: ['admin', 'sign'],
-        onSuccess: (data) => {// Show a success toast when the admin is successfully created
+        mutationKey: ['dashboard', 'sign'],
+        onSuccess: (data) => {// Show a success toast when the dashboard is successfully created
             data.error ?
                 toast({
                     title: "Erreur lors de la création du user",
@@ -48,7 +48,7 @@ const CreateUser = () => {
         onError: (error) => {
             // Show an error toast if there's an issue
             toast({
-                title: "Error creating admin",
+                title: "Error creating dashboard",
                 description: `An error occurred: ${error.message}`,
                 variant: "destructive",
                 action: <ToastAction altText="Close">Dismiss</ToastAction>,

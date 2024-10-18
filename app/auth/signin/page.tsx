@@ -12,6 +12,7 @@ import {useMutation} from "@tanstack/react-query";
 import {signinAdmin, useMe} from "@/service/auth";
 import {useCookies} from "react-cookie";
 import {useRouter} from "next/navigation";
+import {routes} from "@/components/SideBar";
 
 
 const Signin = () => {
@@ -40,7 +41,7 @@ const Signin = () => {
             }
             const {token} = data;
             setCookie('token', token);
-            router.replace('/dashboard',);
+            router.replace(routes.dashboard.main);
         }
 
     })
