@@ -114,7 +114,7 @@ const Comptes = () => {
     });
   };
   return (
-    <div className="h-10 w-full">
+    <div className="h-10">
       <div className="h-10 flex gap-5">
         <AlertDialog>
           <AlertDialogTrigger asChild>

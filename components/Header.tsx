@@ -7,13 +7,15 @@ import {
     BreadcrumbList,
     BreadcrumbSeparator
 } from "@/components/ui/breadcrumb";
+import {SidebarTrigger} from "@/components/ui/sidebar";
 
 const Header = () => {
     const path = usePathname();
     const pathSegments = path.split('/').filter(segment => segment);
 
     return (
-        <header className="p-4">
+        <header className="p-4 flex items-center">
+            <SidebarTrigger className='mr-2' />
             <Breadcrumb>
                 <BreadcrumbList>
                     {pathSegments.map((segment, index) => (

@@ -42,10 +42,6 @@ const SideBar = ({ isCollapsed, setIsCollapsed }: SideBarProps) => {
     router.replace("/auth/signin");
   }
 
-  const logout = () => {
-    removeCookie("token");
-    router.replace("/auth/signin");
-  };
 
   return (
     <aside
@@ -116,7 +112,7 @@ const SideBar = ({ isCollapsed, setIsCollapsed }: SideBarProps) => {
           </div>
         )}
         <Separator />
-        <nav className="flex items-start flex-col py-3">
+        <nav className="flex items-start flex-col p-3 gap-2">
           <Tooltip>
             <TooltipTrigger asChild>
               <Button
