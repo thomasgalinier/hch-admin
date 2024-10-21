@@ -15,12 +15,13 @@ const CartePage = () => {
     };
   return (
     <div>
-      <Button>Enregistrer</Button>
+      <Button className="mb-2">Enregistrer</Button>
       <MapContainer
         center={[45.75, 4.85]}
         zoom={13}
         scrollWheelZoom={true}
-        className="h-screen-minus-header"
+        className=" mx-auto"
+        style={{ height: "calc(100vh - 8rem)", width: "calc(100% - 2rem)" }}
       >
         <TileLayer
           attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
