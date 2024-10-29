@@ -2,14 +2,8 @@
 import { Inter } from "next/font/google";
 import "./globals.css";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import SideBar from "@/components/SideBar";
 import { redirect, usePathname } from "next/navigation";
-import { useState } from "react";
-import Header from "@/components/Header";
-import { Toaster } from "@/components/ui/toaster";
-import { useMe } from "@/service/auth";
 import { useCookies } from "react-cookie";
-import { SidebarProvider } from "@/components/ui/sidebar";
 
 const inter = Inter({ subsets: ["latin"] });
 

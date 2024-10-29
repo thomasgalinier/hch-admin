@@ -28,7 +28,7 @@ import {
 import Link from "next/link";
 import DialogUptadateUser from "@/components/DialogUptadateUser";
 import { Dialog, DialogTrigger } from "@/components/ui/dialog";
-import {routes} from "@/components/SideBar";
+
 
 const Comptes = () => {
   const [cookies] = useCookies(["token"]);
@@ -137,7 +137,7 @@ const Comptes = () => {
           </AlertDialogContent>
         </AlertDialog>
         <Button variant="secondary" asChild>
-          <Link href={routes.comptes.create}>Ajouter</Link>
+          <Link href={'/dashboard/comptes/create'}>Ajouter</Link>
         </Button>
       </div>
       <Table>

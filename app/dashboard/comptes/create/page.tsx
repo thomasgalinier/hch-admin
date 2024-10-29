@@ -76,8 +76,10 @@ const CreateUser = () => {
   };
 
   return (
-    <Card className="p-4">
-      <CardTitle>Création d&apos;un compte admin</CardTitle>
+    <div className="mx-auto">
+        <h1>
+            Création d&apos;un compte admin
+        </h1>
       <div className="flex justify-center items-center h-full">
         <Card className="w-1/2 p-4">
           <Form {...form}>
@@ -176,7 +178,7 @@ const CreateUser = () => {
           </Form>
         </Card>
       </div>
-    </Card>
+    </div>
   );
 };
 

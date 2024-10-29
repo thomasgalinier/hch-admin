@@ -7,12 +7,11 @@ import {zodResolver} from "@hookform/resolvers/zod";
 import {ErrorType, SignInSchema} from "@/schema";
 import {Input} from "@/components/ui/input";
 import {Button} from "@/components/ui/button";
-import {undefined, z} from "zod";
+import {z} from "zod";
 import {useMutation} from "@tanstack/react-query";
 import {signinAdmin, useMe} from "@/service/auth";
 import {useCookies} from "react-cookie";
 import {useRouter} from "next/navigation";
-import {routes} from "@/components/SideBar";
 
 
 const Signin = () => {
@@ -41,7 +40,7 @@ const Signin = () => {
             }
             const {token} = data;
             setCookie('token', token);
-            router.replace(routes.dashboard.main);
+            router.replace('/dashboard');
         }
 
     })
