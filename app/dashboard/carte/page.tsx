@@ -1,23 +1,25 @@
 "use client";
-import { FeatureGroup, MapContainer, TileLayer } from "react-leaflet";
+import {FeatureGroup, MapContainer, Polygon, TileLayer} from "react-leaflet";
 import "leaflet/dist/leaflet.css";
 import { EditControl } from "react-leaflet-draw";
 import { Button } from "@/components/ui/button";
 import { useState } from "react";
-import { useMutation } from "@tanstack/react-query";
+import {useMutation, useQuery} from "@tanstack/react-query";
 import { createCarteSchema } from "@/schema/carte";
-import { createCarte } from "@/service/carte";
+import {createZone, getZone} from "@/service/carte";
 
 const CartePage = () => {
   const mutation = useMutation({
-    mutationFn: (data: createCarteSchema) => createCarte(data),
-    mutationKey: ["carte"],
+    mutationFn: (data: createCarteSchema) => createZone(data),
+    mutationKey: ["zone"],
   });
+  const {data} = useQuery({queryFn: getZone, queryKey: ["zone"]});
+    console.log(data)
   const onCreated = (e: any) => {
     const { layerType, layer } = e;
     if (layerType === "polygon") {
       const polygone = layer.toGeoJSON();
-      mutation.mutate({ nom: `zone_${Date.now()}`, polygone });
+      mutation.mutate({ nom: `zone_${Date.now()}`, polygone: polygone.geometry.coordinates[0] });
     }
   };
 
@@ -51,6 +53,12 @@ const CartePage = () => {
             position={"topright"}
           />
         </FeatureGroup>
+          {data?.map((zone: createCarteSchema) => (
+              <Polygon
+               key={zone.nom}
+               positions={zone.polygone.map((p: any) => [p[1], p[0]])}
+              />
+          ))}
       </MapContainer>
     </div>
   );
