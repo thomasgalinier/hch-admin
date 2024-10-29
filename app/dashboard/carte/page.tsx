@@ -2,20 +2,27 @@
 import { FeatureGroup, MapContainer, TileLayer } from "react-leaflet";
 import "leaflet/dist/leaflet.css";
 import { EditControl } from "react-leaflet-draw";
-import {Button} from "@/components/ui/button";
+import { Button } from "@/components/ui/button";
+import { useState } from "react";
+import { useMutation } from "@tanstack/react-query";
+import { createCarteSchema } from "@/schema/carte";
+import { createCarte } from "@/service/carte";
 
 const CartePage = () => {
-    const onCreated = (e: any) => {
-        const { layerType, layer } = e;
-        if (layerType === "polygon") {
-            const polygon = layer.toGeoJSON();
-            console.log("Polygon created:", polygon);
-            // Ajoutez ici votre logique pour enregistrer le polygone
-        }
-    };
+  const mutation = useMutation({
+    mutationFn: (data: createCarteSchema) => createCarte(data),
+    mutationKey: ["carte"],
+  });
+  const onCreated = (e: any) => {
+    const { layerType, layer } = e;
+    if (layerType === "polygon") {
+      const polygone = layer.toGeoJSON();
+      mutation.mutate({ nom: `zone_${Date.now()}`, polygone });
+    }
+  };
+
   return (
     <div>
-      <Button className="mb-2">Enregistrer</Button>
       <MapContainer
         center={[45.75, 4.85]}
         zoom={13}
@@ -29,13 +36,17 @@ const CartePage = () => {
         />
         <FeatureGroup>
           <EditControl
-              onCreated={onCreated}
+            onCreated={onCreated}
             draw={{
               circle: false,
               marker: false,
               polyline: false,
               rectangle: false,
               circlemarker: false,
+            }}
+            edit={{
+              edit: false,
+              remove: false,
             }}
             position={"topright"}
           />

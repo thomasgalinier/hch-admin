@@ -3,7 +3,6 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/.idea/hch-admin.iml" filepath="$PROJECT_DIR$/.idea/hch-admin.iml" />
-      <module fileurl="file://$PROJECT_DIR$/../hch-back/.idea/hch-back.iml" filepath="$PROJECT_DIR$/../hch-back/.idea/hch-back.iml" />
     </modules>
   </component>
 </project>
