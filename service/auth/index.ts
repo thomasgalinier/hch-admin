@@ -60,6 +60,17 @@ const getAll = async (token: { token?: any }) => {
   return await response.json();
 };
 
+const getTechnicien = async (token: { token?: any }) => {
+  const response = await fetch(`${url}/auth/technicien`, {
+    method: "GET",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${token}`,
+    },
+  });
+  return await response.json();
+};
+
 const deleteUser = async (token: { token?: any }, id: string) => {
   const response = await fetch(`${url}/auth/delete/${id}`, {
     method: "DELETE",
@@ -85,4 +96,12 @@ const updateUser = async (
   });
   return await response.json();
 };
-export { signinAdmin, signupAdmin, useMe, getAll, deleteUser, updateUser };
+export {
+  signinAdmin,
+  signupAdmin,
+  useMe,
+  getAll,
+  getTechnicien,
+  deleteUser,
+  updateUser,
+};

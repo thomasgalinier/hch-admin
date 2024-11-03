@@ -12,6 +12,7 @@ import {LayoutDashboardIcon, Users, Map, User2, ChevronUp, LogOut} from "lucide-
 import {DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger} from "@/components/ui/dropdown-menu";
 import {Avatar, AvatarImage} from "@/components/ui/avatar";
 import {UserType} from "@/schema";
+import CarteSidebar from "@/components/carte-sidebar";
 
 
 const items = [
@@ -37,7 +38,7 @@ export function AppSidebar({user, logout}: {user: UserType | undefined, logout: 
     <Sidebar variant="inset" >
       <SidebarContent>
         <SidebarGroup>
-          <SidebarGroupLabel>Pages</SidebarGroupLabel>
+          <SidebarGroupLabel>Menu</SidebarGroupLabel>
           <SidebarGroupContent>
             <SidebarMenu>
               {items.map((item) => (
@@ -53,6 +54,7 @@ export function AppSidebar({user, logout}: {user: UserType | undefined, logout: 
             </SidebarMenu>
           </SidebarGroupContent>
         </SidebarGroup>
+        <CarteSidebar />
       </SidebarContent>
       <SidebarFooter>
         <SidebarMenu>
