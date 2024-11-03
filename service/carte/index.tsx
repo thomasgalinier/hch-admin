@@ -1,8 +1,10 @@
 import { getUrl } from "@/service/api";
-import { createCarteSchema } from "@/schema/carte";
+import { zoneGeoSchema } from "@/schema/carte";
+import { UseQueryResult } from "@tanstack/react-query";
+import { UserType } from "@/schema";
 
 const { url } = getUrl();
-const createZone = async (data: createCarteSchema) => {
+const createZone = async (data: zoneGeoSchema) => {
   const response = await fetch(`${url}/carte/create`, {
     method: "POST",
     headers: {
