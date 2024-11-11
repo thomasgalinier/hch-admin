@@ -4,6 +4,7 @@ import "./globals.css";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { redirect, usePathname } from "next/navigation";
 import { useCookies } from "react-cookie";
+import {SidebarProvider} from "@/components/ui/sidebar";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -13,10 +14,7 @@ export default function RootLayout({
   const queryClient = new QueryClient();
   const path = usePathname();
   const [cookies] = useCookies(["token"]);
-  console.log(path);
-  if (path === "/") {
-    redirect("/dashboard");
-  }
+
   return (
     <html lang="en">
 <head>

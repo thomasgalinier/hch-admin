@@ -13,6 +13,7 @@ import {DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger
 import {Avatar, AvatarImage} from "@/components/ui/avatar";
 import {UserType} from "@/schema";
 import CarteSidebar from "@/components/carte-sidebar";
+import {useZoneStore} from "@/store/useZoneStore";
 
 
 const items = [
@@ -33,7 +34,7 @@ const items = [
   },
 ];
 export function AppSidebar({user, logout}: {user: UserType | undefined, logout: () => void}) {
-
+  const { isCarte } = useZoneStore();
   return (
     <Sidebar variant="inset" >
       <SidebarContent>
@@ -54,7 +55,7 @@ export function AppSidebar({user, logout}: {user: UserType | undefined, logout: 
             </SidebarMenu>
           </SidebarGroupContent>
         </SidebarGroup>
-        <CarteSidebar />
+        {isCarte && <CarteSidebar />}
       </SidebarContent>
       <SidebarFooter>
         <SidebarMenu>
