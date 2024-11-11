@@ -8,15 +8,19 @@ import {
 } from "react-leaflet";
 import "leaflet/dist/leaflet.css";
 import { EditControl } from "react-leaflet-draw";
-import { useMutation, useQuery } from "@tanstack/react-query";
+import {useMutation, useQuery, useQueryClient} from "@tanstack/react-query";
 import { zoneGeoSchema } from "@/schema/carte";
 import { createZone, getZone } from "@/service/carte";
+import {useEffect} from "react";
+import {useZoneStore} from "@/store/useZoneStore";
 
 const CartePage = () => {
+  const {setZoneSelected} = useZoneStore();
+  const queryClient= useQueryClient();
   const mutation = useMutation({
     mutationFn: (data: zoneGeoSchema) => createZone(data),
     onSuccess: () => {
-      refetch();
+      queryClient.invalidateQueries({queryKey:["zone"]});
     },
     mutationKey: ["zone"],
   });
@@ -32,6 +36,7 @@ const CartePage = () => {
       });
     }
   };
+
 
   return (
     <div>
@@ -69,6 +74,11 @@ const CartePage = () => {
             positions={zone.polygone.map((p: any) => [p[1], p[0]])}
             color={zone.color}
             fillColor="#000000"
+            eventHandlers={{
+              click: () => {
+                setZoneSelected(zone.id);
+              },
+            }}
           />
         ))}
       </MapContainer>

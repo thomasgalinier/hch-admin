@@ -4,8 +4,8 @@ import {
   SidebarGroupLabel,
   SidebarMenuButton,
 } from "@/components/ui/sidebar";
-import { useQuery } from "@tanstack/react-query";
-import { getZone } from "@/service/carte";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import {deleteZone, getZone, updateZone} from "@/service/carte";
 import { Button } from "@/components/ui/button";
 import { zoneGeoSchema } from "@/schema/carte";
 import {
@@ -37,20 +37,29 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { getTechnicien } from "@/service/auth";
-import {useCookies} from "react-cookie";
-import {UserType} from "@/schema";
+import { useCookies } from "react-cookie";
+import { UserType } from "@/schema";
+import { useZoneStore } from "@/store/useZoneStore";
+import {log} from "node:util";
 
 const CarteSidebar = () => {
+  const { zoneSelected, setZoneSelected } = useZoneStore();
+  console.log(zoneSelected);
   const [cookies] = useCookies(["token"]);
   const { data = [], refetch } = useQuery({
     queryFn: getZone,
     queryKey: ["zone"],
   });
-  const { data: technicienData = []} = useQuery({
+  const [zonesData, setZonesData] = useState<zoneGeoSchema[]>(data);
+  const mutation = useMutation({
+    mutationFn: (data: { id?: string; zone: zoneGeoSchema }) =>
+      updateZone(data),
+    mutationKey: ["zone"],
+  });
+  const { data: technicienData = [] } = useQuery({
     queryFn: () => getTechnicien(cookies.token),
     queryKey: ["technicien"],
   });
-  const [zonesData, setZonesData] = useState<zoneGeoSchema[]>(data);
   const handleInputChange = (
     id: string | undefined,
     field: string,
@@ -62,23 +71,46 @@ const CarteSidebar = () => {
       ),
     );
   };
+  const handleSave = (zone: zoneGeoSchema) => {
+    mutation.mutate({ id: zone.id, zone });
+    console.log(zone);
+    window.location.reload();
+  };
+  const deleteZoneMutation = useMutation({
+    mutationFn: (id: string) => deleteZone(id),
+    mutationKey: ["delete"],
+    onSuccess: () => {
+      refetch();
+    }
+  });
   useEffect(() => {
     refetch();
     setZonesData(data);
   }, [data]);
+  const handleDelete = (zoneId?: string) => {
+    // @ts-ignore
+    deleteZoneMutation.mutate(zoneId);
+    setZoneSelected(null);
+  };
   return (
     <SidebarGroup>
       <SidebarGroupLabel>Carte Action</SidebarGroupLabel>
       <SidebarGroupContent className="flex flex-col gap-4">
         {zonesData.map((zone: zoneGeoSchema) => (
-          <Collapsible key={zone.id} defaultOpen className="group/collapsible">
+          <Collapsible
+            key={zone.id}
+            className="group/collapsible"
+            open={zone.id === zoneSelected}
+          >
             <SidebarMenuButton asChild>
-              <CollapsibleTrigger>
-                {zone.nom}
-                <div
-                  style={{ backgroundColor: zone.color }}
-                  className="h-3 w-3 rounded-sm ml-auto"
-                ></div>
+              <CollapsibleTrigger onClick={() => setZoneSelected(zone.id)}>
+                <div className="flex items-center justify-between w-full">
+                  {zone.nom}
+                  <div
+                    style={{ backgroundColor: zone.color }}
+                    className="h-3 w-3 rounded-sm ml-auto"
+                  ></div>
+                </div>
                 <ChevronUp className="ml-auto transition-transform group-data-[state=open]/collapsible:rotate-180" />
               </CollapsibleTrigger>
             </SidebarMenuButton>
@@ -96,9 +128,7 @@ const CarteSidebar = () => {
                   <div className="flex gap-2">
                     <Popover>
                       <PopoverTrigger asChild>
-                        <Button
-                          style={{ backgroundColor: zone.color }}
-                        ></Button>
+                        <Button style={{ backgroundColor: zone.color }} />
                       </PopoverTrigger>
                       <PopoverContent className="w-full">
                         <HexColorPicker
@@ -117,19 +147,28 @@ const CarteSidebar = () => {
                       className="w-full"
                     />
                   </div>
-                  <Select defaultValue={zone.id_technicien ? zone.id_technicien : undefined}>
+                  <Select
+                    defaultValue={
+                      zone.id_technicien ? zone.id_technicien : undefined
+                    }
+                    onValueChange={(value) =>
+                      handleInputChange(zone.id, "id_technicien", value)
+                    }
+                  >
                     <SelectTrigger>
                       <SelectValue placeholder="Technicien" />
                     </SelectTrigger>
                     <SelectContent>
                       {technicienData.map((technicien: UserType) => (
-                          <SelectItem value={String(technicien.id)} key={technicien.id}>
-                            {technicien.prenom} {technicien.nom}
-                          </SelectItem>
+                        <SelectItem
+                          value={String(technicien.id)}
+                          key={technicien.id}
+                        >
+                          {technicien.prenom} {technicien.nom}
+                        </SelectItem>
                       ))}
                     </SelectContent>
                   </Select>
-
                 </CardContent>
                 <TooltipProvider>
                   <CardFooter className="justify-end gap-2">
@@ -139,6 +178,7 @@ const CarteSidebar = () => {
                           size="sm"
                           variant="secondary"
                           className="w-full"
+                          onClick={() => handleSave(zone)}
                         >
                           <Save />
                         </Button>
@@ -151,6 +191,7 @@ const CarteSidebar = () => {
                           size="sm"
                           variant="destructive"
                           className="w-full"
+                          onClick={() => handleDelete(zone.id)}
                         >
                           <Delete />
                         </Button>

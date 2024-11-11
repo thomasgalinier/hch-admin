@@ -23,5 +23,24 @@ const getZone = async () => {
   });
   return await response.json();
 };
-
-export { createZone, getZone };
+const updateZone = async (data: {id?: string, zone: zoneGeoSchema}) => {
+    const {id, zone} = data
+    const response = await fetch(`${url}/carte/update/${id}`, {
+        method: "PUT",
+        headers: {
+        "Content-Type": "application/json",
+        },
+        body: JSON.stringify(data),
+    });
+    return await response.json();
+}
+const deleteZone = async (id: any) => {
+    const response = await fetch(`${url}/carte/delete/${id}`, {
+        method: "DELETE",
+        headers: {
+        "Content-Type": "application/json",
+        },
+    })
+    return await response.json();
+}
+export { createZone, getZone, updateZone, deleteZone };
