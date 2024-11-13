@@ -8,7 +8,7 @@ import {
   SidebarMenuButton,
   SidebarMenuItem,
 } from "@/components/ui/sidebar";
-import {LayoutDashboardIcon, Users, Map, User2, ChevronUp, LogOut} from "lucide-react";
+import {LayoutDashboardIcon, Users, Map, ChevronUp, LogOut, Calendar} from "lucide-react";
 import {DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger} from "@/components/ui/dropdown-menu";
 import {Avatar, AvatarImage} from "@/components/ui/avatar";
 import {UserType} from "@/schema";
@@ -32,6 +32,11 @@ const items = [
     url: "/dashboard/carte",
     icon: Map,
   },
+  {
+    title: 'Planing',
+    url: '/dashboard/planing',
+    icon: Calendar,
+  }
 ];
 export function AppSidebar({user, logout}: {user: UserType | undefined, logout: () => void}) {
   const { isCarte } = useZoneStore();
