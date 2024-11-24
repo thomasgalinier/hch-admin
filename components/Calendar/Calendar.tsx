@@ -8,7 +8,7 @@ const Calendar = () => {
     const [view, setView] = useState<ViewType>('week');
     const [currentDate, setCurrentDate] = useState<Date>(new Date());
 
-
+    const hours = Array.from({ length: 24 }, (_, index) => `${index}:00`);
     const toolbarInfo = (view: ViewType) => {
         if (view === 'day') {
             return(
@@ -64,7 +64,7 @@ const Calendar = () => {
     return (
         <div>
             <ToolBar setView={setView} view={view} toolbarInfo={toolbarInfo} goNext={goNext} goBack={goBack} goToday={goToday} />
-            {view === 'week' && <WeeklyView />}
+            {view === 'week' && <WeeklyView currentDate={currentDate} hours={hours} />}
         </div>
     );
 };

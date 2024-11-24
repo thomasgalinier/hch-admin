@@ -11,7 +11,6 @@ import { EditControl } from "react-leaflet-draw";
 import {useMutation, useQuery, useQueryClient} from "@tanstack/react-query";
 import { zoneGeoSchema } from "@/schema/carte";
 import { createZone, getZone } from "@/service/carte";
-import {useEffect} from "react";
 import {useZoneStore} from "@/store/useZoneStore";
 
 const CartePage = () => {
@@ -24,7 +23,7 @@ const CartePage = () => {
     },
     mutationKey: ["zone"],
   });
-  const { data, refetch } = useQuery({ queryFn: getZone, queryKey: ["zone"] });
+  const { data } = useQuery({ queryFn: getZone, queryKey: ["zone"] });
   const onCreated = (e: any) => {
     const { layerType, layer } = e;
     if (layerType === "polygon") {
@@ -36,6 +35,7 @@ const CartePage = () => {
       });
     }
   };
+
 
 
   return (
