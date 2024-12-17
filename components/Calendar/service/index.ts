@@ -31,4 +31,13 @@ const createPlanning = async (data: CreatePlanningType) => {
     });
     return await response.json();
 }
-export { createModel, getModels, createPlanning };
+const getPlanningsByTechnicien = async (id: string) => {
+    const response = await fetch(`${url}/planning/technicien/${id}`, {
+        method: "GET",
+        headers: {
+            "Content-Type": "application/json",
+        },
+    });
+    return await response.json();
+}
+export { createModel, getModels, createPlanning, getPlanningsByTechnicien };

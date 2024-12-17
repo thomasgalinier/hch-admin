@@ -35,10 +35,14 @@ import {
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Input } from "@/components/ui/input";
-import {createModel, createPlanning, getModels} from "@/components/Calendar/service";
+import {
+  createModel,
+  createPlanning,
+  getModels,
+} from "@/components/Calendar/service";
 import * as z from "zod";
 import { useToast } from "@/hooks/use-toast";
-import {DateTimePicker} from "@/components/date-picker";
+import { DateTimePicker } from "@/components/date-picker";
 interface ToolBarProps {
   setView: (view: ViewType) => void;
   view: "day" | "week" | "month";
@@ -46,13 +50,26 @@ interface ToolBarProps {
   goNext: () => void;
   goBack: () => void;
   goToday: () => void;
+  technicienId: string;
+  setTechnicienId: (id: string) => void;
+    refetchPlanning: () => void;
 }
 
 const ToolBar = (props: ToolBarProps) => {
+  const {
+    setView,
+    view,
+    toolbarInfo,
+    goNext,
+    goBack,
+    goToday,
+    technicienId,
+    setTechnicienId,
+    refetchPlanning,
+  } = props;
   const { toast } = useToast();
   const [cookies] = useCookies(["token"]);
-  const [technicienId, setTechnicienId] = useState<string>("");
-  const { setView, view, toolbarInfo, goNext, goBack, goToday } = props;
+
   const [modelForm, setModelForm] = useState(false);
   const handleViewChange = (view: ViewType) => {
     setView(view);
@@ -65,7 +82,6 @@ const ToolBar = (props: ToolBarProps) => {
     queryFn: () => getModels(),
     queryKey: ["model"],
   });
-  console.log(modelData);
   const mutationModel = useMutation({
     mutationFn: createModel,
     mutationKey: ["model"],
@@ -92,9 +108,8 @@ const ToolBar = (props: ToolBarProps) => {
       toast({
         title: "Planning créé",
       });
-
     },
-  })
+  });
   const formModel = useForm({
     resolver: zodResolver(modelSchema),
     defaultValues: {
@@ -111,11 +126,9 @@ const ToolBar = (props: ToolBarProps) => {
     },
   });
   const onSubmitModel = (data: z.infer<typeof modelSchema>) => {
-    console.log(data);
     mutationModel.mutate(data);
   };
   const onSubmitPlanning = (data: z.infer<typeof planningSchema>) => {
-
     mutationPlanning.mutate(data);
   };
   return (
@@ -135,9 +148,37 @@ const ToolBar = (props: ToolBarProps) => {
         <div className="text-xl">{toolbarInfo(view)}</div>
       </div>
       <div className="flex gap-2  items-center w-3/5">
-        <Select onValueChange={(value) => setTechnicienId(value)}>
+        <Select
+          defaultValue={technicienId}
+          onValueChange={(value) => {
+            setTechnicienId(value);
+            refetchPlanning();
+          }}
+        >
           <SelectTrigger>
-            <SelectValue></SelectValue>
+            <div className="flex items-center gap-2">
+              <Avatar className="size-7">
+                <AvatarImage
+                  src={`https://api.dicebear.com/9.x/thumbs/svg?seed=${
+                    technicienData.find(
+                      (technicien: UserType) => technicien.id === technicienId,
+                    )?.nom
+                  }${
+                    technicienData.find(
+                      (technicien: UserType) => technicien.id === technicienId,
+                    )?.prenom
+                  }`}
+                />
+              </Avatar>
+              {technicienData.find(
+                (technicien: UserType) => technicien.id === technicienId,
+              )?.nom || "Sélectionnez un technicien"}{" "}
+              {
+                technicienData.find(
+                  (technicien: UserType) => technicien.id === technicienId,
+                )?.prenom
+              }
+            </div>
           </SelectTrigger>
           <SelectContent>
             <SelectGroup>
@@ -209,45 +250,53 @@ const ToolBar = (props: ToolBarProps) => {
               <Form {...formPlanning}>
                 <form onSubmit={formPlanning.handleSubmit(onSubmitPlanning)}>
                   <FormField
-                      control={formPlanning.control}
-                      name="dateTime"
-                      render={({ field }) => (
-                          <FormItem>
-                            <FormLabel>Date et Heure</FormLabel>
-                            <FormControl>
-                              <DateTimePicker
-                                  value={field.value}
-                                  onChange={(date: Date) => field.onChange(date)}
-                              />
-                            </FormControl>
-                          </FormItem>
-                      )}
+                    control={formPlanning.control}
+                    name="dateTime"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>Date et Heure</FormLabel>
+                        <FormControl>
+                          <DateTimePicker
+                            value={field.value}
+                            onChange={(date: Date) => field.onChange(date)}
+                          />
+                        </FormControl>
+                      </FormItem>
+                    )}
                   />
-                  <FormField control={formPlanning.control} name="id_model" render={({field}) => (
+                  <FormField
+                    control={formPlanning.control}
+                    name="id_model"
+                    render={({ field }) => (
                       <FormItem>
                         <FormLabel>Modéle</FormLabel>
                         <FormControl>
                           <Select
-                              value={field.value}
-                              onValueChange={(value) => field.onChange(value)}>
+                            value={field.value}
+                            onValueChange={(value) => field.onChange(value)}
+                          >
                             <SelectTrigger>
-                                <SelectValue>
-                                    {modelData.find((model: ModelType) => model.id === field.value)?.nom || "Sélectionnez un modéle"}
-                                </SelectValue>
+                              {modelData.find(
+                                (model: ModelType) => model.id === field.value,
+                              )?.nom || "Sélectionnez un modéle"}
                             </SelectTrigger>
                             <SelectContent>
                               <SelectGroup>
                                 {modelData.map((model: ModelType) => (
-                                    <SelectItem key={model.id} value={model.id ?? ""}>
-                                      {model.nom}
-                                    </SelectItem>
+                                  <SelectItem
+                                    key={model.id}
+                                    value={model.id ?? ""}
+                                  >
+                                    {model.nom}
+                                  </SelectItem>
                                 ))}
                               </SelectGroup>
                             </SelectContent>
                           </Select>
                         </FormControl>
                       </FormItem>
-                  )} />
+                    )}
+                  />
                   <FormField
                     control={formPlanning.control}
                     name="id_technicien"
@@ -260,49 +309,24 @@ const ToolBar = (props: ToolBarProps) => {
                             onValueChange={(value) => field.onChange(value)}
                           >
                             <SelectTrigger>
-                              <SelectValue>
-                                <div className="flex items-center gap-2">
-                                  <Avatar className="size-7">
-                                    <AvatarImage
-                                      src={`https://api.dicebear.com/9.x/thumbs/svg?seed=${
-                                        technicienData.find(
-                                          (technicien: UserType) =>
-                                            technicien.id === field.value,
-                                        )?.nom
-                                      }${
-                                        technicienData.find(
-                                          (technicien: UserType) =>
-                                            technicien.id === field.value,
-                                        )?.prenom
-                                      }`}
-                                    />
-                                  </Avatar>
-                                  {technicienData.find(
-                                    (technicien: UserType) =>
-                                      technicien.id === field.value,
-                                  )?.nom || "Sélectionnez un technicien"}{" "}
-                                  {
-                                    technicienData.find(
-                                      (technicien: UserType) =>
-                                        technicien.id === field.value,
-                                    )?.prenom
-                                  }
-                                </div>
-                              </SelectValue>
+                              Séléctionnez un technicien
                             </SelectTrigger>
                             <SelectContent>
                               <SelectGroup>
                                 {technicienData.map((technicien: UserType) => (
-                                    <SelectItem key={technicien.id} value={technicien.id ?? ""}>
-                                      <div className="flex items-center gap-2">
-                                        <Avatar className="size-7">
-                                          <AvatarImage
-                                              src={`https://api.dicebear.com/9.x/thumbs/svg?seed=${technicien?.nom}${technicien?.prenom}`}
-                                          />
-                                        </Avatar>
-                                        {technicien.nom}.{technicien.prenom}
-                                      </div>
-                                    </SelectItem>
+                                  <SelectItem
+                                    key={technicien.id}
+                                    value={technicien.id ?? ""}
+                                  >
+                                    <div className="flex items-center gap-2">
+                                      <Avatar className="size-7">
+                                        <AvatarImage
+                                          src={`https://api.dicebear.com/9.x/thumbs/svg?seed=${technicien?.nom}${technicien?.prenom}`}
+                                        />
+                                      </Avatar>
+                                      {technicien.nom}.{technicien.prenom}
+                                    </div>
+                                  </SelectItem>
                                 ))}
                               </SelectGroup>
                             </SelectContent>

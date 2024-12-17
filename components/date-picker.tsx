@@ -18,30 +18,34 @@ interface DateTimePickerProps {
 
 export function DateTimePicker({ value, onChange }: DateTimePickerProps) {
     const [isOpen, setIsOpen] = React.useState(false);
+    console.log(value)
 
-    const hours = Array.from({ length: 12 }, (_, i) => i + 1);
+
+    const hours = Array.from({ length: 23 }, (_, i) => i + 1);
 
     const handleDateSelect = (selectedDate: Date | undefined) => {
         if (selectedDate) {
             onChange(selectedDate); // Mettre à jour la date dans le formulaire
         }
     };
+    const handleTimeChange = (type: "hour" | "minute", newValue: string) => {
+        if (newValue && newValue !== "") {
+            // Utiliser "value" comme base. Si "value" est invalide, initialiser avec la date actuelle.
+            const baseDate = value instanceof Date && !isNaN(value.getTime()) ? value : new Date();
 
-    const handleTimeChange = (
-        type: "hour" | "minute" | "ampm",
-        value: string
-    ) => {
-        if (value && value !== "") {
-            const newDate = new Date(value);
+            // Créer une copie de baseDate pour éviter la mutation directe
+            const updatedDate = new Date(baseDate);
+
             if (type === "hour") {
-                newDate.setHours(parseInt(value));
+                updatedDate.setHours(parseInt(newValue, 10)); // Mettre à jour l'heure
             } else if (type === "minute") {
-                newDate.setMinutes(parseInt(value));
+                updatedDate.setMinutes(parseInt(newValue, 10)); // Mettre à jour les minutes
             }
-            onChange(newDate);
+
+            // Appeler onChange avec la nouvelle date mise à jour
+            onChange(updatedDate);
         }
     };
-
     return (
         <Popover open={isOpen} onOpenChange={setIsOpen}>
             <PopoverTrigger asChild>
@@ -53,7 +57,7 @@ export function DateTimePicker({ value, onChange }: DateTimePickerProps) {
                     )}
                 >
                     <CalendarIcon className="mr-2 h-4 w-4" />
-                    {value ? format(value, "MM/dd/yyyy hh:mm aa") : <span>MM/DD/YYYY hh:mm aa</span>}
+                    {value ? format(value, "MM/dd/yyyy hh:mm") : <span>MM/DD/YYYY hh:mm</span>}
                 </Button>
             </PopoverTrigger>
             <PopoverContent className="w-auto p-0">
@@ -66,8 +70,9 @@ export function DateTimePicker({ value, onChange }: DateTimePickerProps) {
                     />
                     <div className="flex flex-col sm:flex-row sm:h-[300px] divide-y sm:divide-y-0 sm:divide-x">
                         <ScrollArea className="w-64 sm:w-auto">
-                            <div className="flex sm:flex-col p-2">
-                                {hours.reverse().map((hour) => (
+                            <div className="flex items-center sm:flex-col p-2">
+                                <div>H</div>
+                                {hours.map((hour) => (
                                     <Button
                                         key={hour}
                                         size="icon"
@@ -82,8 +87,10 @@ export function DateTimePicker({ value, onChange }: DateTimePickerProps) {
                             <ScrollBar orientation="horizontal" className="sm:hidden" />
                         </ScrollArea>
                         <ScrollArea className="w-64 sm:w-auto">
-                            <div className="flex sm:flex-col p-2">
+                            <div className="flex items-center sm:flex-col p-2">
+                                <div>mm</div>
                                 {Array.from({ length: 12 }, (_, i) => i * 5).map((minute) => (
+
                                     <Button
                                         key={minute}
                                         size="icon"
@@ -96,27 +103,6 @@ export function DateTimePicker({ value, onChange }: DateTimePickerProps) {
                                 ))}
                             </div>
                             <ScrollBar orientation="horizontal" className="sm:hidden" />
-                        </ScrollArea>
-                        <ScrollArea className="">
-                            <div className="flex sm:flex-col p-2">
-                                {["AM", "PM"].map((ampm) => (
-                                    <Button
-                                        key={ampm}
-                                        size="icon"
-                                        variant={
-                                            value &&
-                                            ((ampm === "AM" && value.getHours() < 12) ||
-                                                (ampm === "PM" && value.getHours() >= 12))
-                                                ? "default"
-                                                : "ghost"
-                                        }
-                                        className="sm:w-full shrink-0 aspect-square"
-                                        onClick={() => handleTimeChange("ampm", ampm)}
-                                    >
-                                        {ampm}
-                                    </Button>
-                                ))}
-                            </div>
                         </ScrollArea>
                     </div>
                 </div>
