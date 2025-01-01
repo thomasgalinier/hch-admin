@@ -1,8 +1,6 @@
 'use client'
 
-
-import WeeklyView from "@/components/Calendar/WeeklyView";
-import Calendar from "@/components/Calendar/Calendar";
+import Calendar from '@/components/Calendar'
 
 const PlaningPage = () => {
 
