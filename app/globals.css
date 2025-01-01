@@ -5,6 +5,7 @@
 @layer base {
 
     :root  {
+
         --background: 160 5% 95%;
         --foreground: 160 5% 10%;
         --card: 160 5% 95%;
@@ -33,6 +34,14 @@
         --sidebar-accent-foreground: 240 5.9% 10%;
         --sidebar-border: 220 13% 91%;
         --sidebar-ring: 217.2 91.2% 59.8%;
+
+        /*--fc-button-bg-color: 160 10% 90%;*/
+        /*--fc-button-text-color: 0 0% 0%;*/
+        /*--fc-button-border-color: transparent;*/
+        /*--fc-button-bg-color-hover: 160 16% 39%;*/
+        /*--fc-button-text-color-hover: 0 0% 100%;*/
+        /*--fc-button-active-bg-color:#547369;*/
+
     }
     .dark  {
         --background: 160 10% 10%;
@@ -76,4 +85,7 @@
     body {
         @apply bg-background text-foreground;
     }
+}
+.fc-button-primary {
+    background-color: red;
 }
