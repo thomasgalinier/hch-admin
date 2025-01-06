@@ -2,6 +2,6 @@ export interface zoneGeoSchema {
     id?: string
     id_technicien?: string;
     nom: string;
-    polygone: number[];
+    polygone: {type: string, coordinates: number[] };
     color: string;
 }

@@ -8,7 +8,7 @@ import {
   SidebarMenuButton,
   SidebarMenuItem,
 } from "@/components/ui/sidebar";
-import {LayoutDashboardIcon, Users, Map, ChevronUp, LogOut, Calendar} from "lucide-react";
+import {LayoutDashboardIcon, Users, Map, ChevronUp, LogOut, Calendar, EuroIcon} from "lucide-react";
 import {DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger} from "@/components/ui/dropdown-menu";
 import {Avatar, AvatarImage} from "@/components/ui/avatar";
 import {UserType} from "@/schema";
@@ -36,6 +36,11 @@ const items = [
     title: 'Planing',
     url: '/dashboard/planing',
     icon: Calendar,
+  },
+  {
+    title: 'Forfait',
+    url: '/dashboard/forfait',
+    icon: EuroIcon
   }
 ];
 export function AppSidebar({user, logout}: {user: UserType | undefined, logout: () => void}) {
