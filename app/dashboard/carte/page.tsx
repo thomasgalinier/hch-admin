@@ -30,7 +30,7 @@ const CartePage = () => {
       const polygone = layer.toGeoJSON();
       mutation.mutate({
         nom: `zone_${Date.now()}`,
-        polygone: polygone.geometry.coordinates[0],
+        polygone: {type:'Polygon', coordinates: [polygone.geometry.coordinates[0]]},
         color: "#FFDD00",
       });
     }
@@ -66,18 +66,22 @@ const CartePage = () => {
             position={"topright"}
           />
         </FeatureGroup>
+
         {data?.map((zone: zoneGeoSchema) => (
-          <Polygon
-            key={zone.id}
-            positions={zone.polygone.map((p: any) => [p[1], p[0]])}
-            color={zone.color}
-            fillColor="#000000"
-            eventHandlers={{
-              click: () => {
-                setZoneSelected(zone.id);
-              },
-            }}
-          />
+            zone.polygone.coordinates.map((polygon: any, index: number) => (
+                <Polygon
+                    key={`${zone.id}-${index}`} // Ajoutez un index unique pour chaque polygone
+                    positions={polygon.map((coord: any) => [coord[1], coord[0]])} // Inverser les coordonnées
+                    color={zone.color}
+                    fillColor="#000000"
+                    eventHandlers={{
+                      click: () => {
+                        setZoneSelected(zone.id);
+                      },
+                    }}
+                />
+
+            ))
         ))}
       </MapContainer>
     </div>
