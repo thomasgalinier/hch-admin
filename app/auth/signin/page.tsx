@@ -19,6 +19,7 @@ const Signin = () => {
     const [cookies, setCookie, ] = useCookies(['token']);
     // @ts-ignore
     const [error, setError] = useState<ErrorType>({});
+    const [value, setValue] = useState('');
     const {data: user} = useMe(cookies.token);
     const form = useForm({
         resolver: zodResolver(SignInSchema),

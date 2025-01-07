@@ -35,7 +35,6 @@ const CartePage = () => {
       });
     }
   };
-  console.log(data);
   return (
     <div>
       <MapContainer

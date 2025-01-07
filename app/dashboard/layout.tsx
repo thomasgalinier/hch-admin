@@ -32,7 +32,6 @@ const Layout = ({ children }: Readonly<{ children: React.ReactNode }>) => {
   return (
       <SidebarProvider>
       <AppSidebar user={user} logout={logout} />
-
       <SidebarInset>
         <div className="h-full">
           <Header />

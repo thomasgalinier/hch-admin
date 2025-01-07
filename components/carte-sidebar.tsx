@@ -45,6 +45,7 @@ import {log} from "node:util";
 const CarteSidebar = () => {
   const { zoneSelected, setZoneSelected } = useZoneStore();
   console.log(zoneSelected);
+  console.log(zoneSelected)
   const [cookies] = useCookies(["token"]);
   const { data = [], refetch } = useQuery({
     queryFn: getZone,
@@ -92,6 +93,7 @@ const CarteSidebar = () => {
     deleteZoneMutation.mutate(zoneId);
     setZoneSelected(null);
   };
+  console.log(zonesData);
   return (
     <SidebarGroup>
       <SidebarGroupLabel>Carte Action</SidebarGroupLabel>
@@ -103,7 +105,7 @@ const CarteSidebar = () => {
             open={zone.id === zoneSelected}
           >
             <SidebarMenuButton asChild>
-              <CollapsibleTrigger onClick={() => setZoneSelected(zone.id)}>
+              <CollapsibleTrigger onClick={() => setZoneSelected(zone.id === zoneSelected? null: zone.id)}>
                 <div className="flex items-center justify-between w-full">
                   {zone.nom}
                   <div

@@ -7,10 +7,12 @@ import {redirect} from "next/navigation";
 
 export default function Home() {
   const [cookies] = useCookies(["token"]);
-  const { data: user, isFetched } = useMe(cookies.token);
-  console.log(isFetched);
-  if (isFetched && !user) {
+  const { data: user, isError } = useMe(cookies.token);
+
+  if (isError) {
     redirect("/auth/signin");
+  }else if (!isError) {
+    redirect("/dashboard");
   }
     return (<div className="bg-accent w-screen h-screen p-2 flex justify-between">
       <Skeleton className="h-full w-2/12 "/>
