@@ -150,6 +150,7 @@ const Calendar: React.FC = () => {
 
 
 
+    // @ts-ignore
     return (
         <div>
             <div className="flex w-full px-10 justify-start items-start gap-8">
@@ -309,6 +310,7 @@ const Calendar: React.FC = () => {
                                 />
                                 <Button className="w-full" type="submit">{dialogMode === "create"  ? 'Créer un évenement': "Modifier l'évenement"}</Button>
                                 {dialogMode === "update" && (
+                                    // @ts-ignore
                                     <Button variant="destructive" onClick={() => handleDeleteEvent(selectedEvent.id)}>Supprimer l&#39;évenement</Button>
                                 )}
                             </div>
