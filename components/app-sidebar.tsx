@@ -37,11 +37,11 @@ const items = [
     url: '/dashboard/planing',
     icon: Calendar,
   },
-  {
-    title: 'Forfait',
-    url: '/dashboard/forfait',
-    icon: EuroIcon
-  }
+  // {
+  //   title: 'Forfait',
+  //   url: '/dashboard/forfait',
+  //   icon: EuroIcon
+  // }
 ];
 export function AppSidebar({user, logout}: {user: UserType | undefined, logout: () => void}) {
   const { isCarte } = useZoneStore();
