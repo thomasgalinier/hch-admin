@@ -55,6 +55,9 @@ const CarteSidebar = () => {
   const mutation = useMutation({
     mutationFn: (data: { id?: string; zone: zoneGeoSchema }) =>
       updateZone(data),
+    onSuccess: () => {
+      refetch();
+    },
     mutationKey: ["zone"],
   });
   const { data: technicienData = [] } = useQuery({
@@ -75,7 +78,7 @@ const CarteSidebar = () => {
   const handleSave = (zone: zoneGeoSchema) => {
     mutation.mutate({ id: zone.id, zone });
     console.log(zone);
-    window.location.reload();
+
   };
   const deleteZoneMutation = useMutation({
     mutationFn: (id: string) => deleteZone(id),
