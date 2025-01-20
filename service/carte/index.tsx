@@ -14,14 +14,17 @@ const createZone = async (data: zoneGeoSchema) => {
   });
   return await response.json();
 };
-const getZone = async () => {
-  const response = await fetch(`${url}/carte`, {
-    method: "GET",
-    headers: {
-      "Content-Type": "application/json",
-    },
-  });
-  return await response.json();
+const getZone = async (token: { token?: any }) => {
+    if(typeof token === "string") {
+        const response = await fetch(`${url}/carte`, {
+            method: "GET",
+            headers: {
+                "Content-Type": "application/json",
+                Authorization: `Bearer ${token}`,
+            },
+        });
+        return await response.json();
+    }
 };
 const updateZone = async (data: {id?: string, zone: zoneGeoSchema}) => {
     const {id, zone} = data

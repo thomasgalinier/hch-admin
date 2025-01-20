@@ -48,7 +48,7 @@ const CarteSidebar = () => {
   console.log(zoneSelected)
   const [cookies] = useCookies(["token"]);
   const { data = [], refetch } = useQuery({
-    queryFn: getZone,
+    queryFn: () => getZone(cookies.token),
     queryKey: ["zone"],
   });
   const [zonesData, setZonesData] = useState<zoneGeoSchema[]>(data);

@@ -50,6 +50,7 @@ const useMe = (token: string): UseQueryResult<UserType, Error> => {
 };
 
 const getAll = async (token: { token?: any }) => {
+
   const response = await fetch(`${url}/auth/all`, {
     method: "GET",
     headers: {
