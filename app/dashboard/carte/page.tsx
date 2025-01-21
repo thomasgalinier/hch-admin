@@ -12,9 +12,12 @@ import {useMutation, useQuery, useQueryClient} from "@tanstack/react-query";
 import { zoneGeoSchema } from "@/schema/carte";
 import { createZone, getZone } from "@/service/carte";
 import {useZoneStore} from "@/store/useZoneStore";
+import {cookies} from "next/headers";
+import {useCookies} from "react-cookie";
 
 const CartePage = () => {
   const {setZoneSelected} = useZoneStore();
+  const [cookie] = useCookies(["token"]);
   const queryClient= useQueryClient();
   const mutation = useMutation({
     mutationFn: (data: zoneGeoSchema) => createZone(data),
@@ -23,7 +26,7 @@ const CartePage = () => {
     },
     mutationKey: ["zone"],
   });
-  const { data } = useQuery({ queryFn: getZone, queryKey: ["zone"] });
+  const { data } = useQuery({ queryFn: () => getZone(cookie.token), queryKey: ["zone"] });
   const onCreated = (e: any) => {
     const { layerType, layer } = e;
     if (layerType === "polygon") {

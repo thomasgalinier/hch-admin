@@ -46,7 +46,6 @@ const CreateUser = () => {
     mutationFn: signupAdmin,
     mutationKey: ["dashboard", "sign"],
     onSuccess: (data) => {
-      // Show a success toast when the dashboard is successfully created
       data.error
         ? toast({
             title: "Erreur lors de la création du user",
@@ -59,7 +58,6 @@ const CreateUser = () => {
           });
     },
     onError: (error) => {
-      // Show an error toast if there's an issue
       toast({
         title: "Error creating dashboard",
         description: `An error occurred: ${error.message}`,
@@ -69,7 +67,6 @@ const CreateUser = () => {
     },
   });
 
-  // Handle form submission
   const onsubmit = (data: z.infer<typeof SignUpSchema>) => {
     const allData = { ...data, token: cookies.token };
     mutation.mutate(allData);
@@ -77,9 +74,7 @@ const CreateUser = () => {
 
   return (
     <div className="mx-auto">
-        <h1>
-            Création d&apos;un compte admin
-        </h1>
+      <h1>Création d&apos;un compte admin</h1>
       <div className="flex justify-center items-center h-full">
         <Card className="w-1/2 p-4">
           <Form {...form}>
