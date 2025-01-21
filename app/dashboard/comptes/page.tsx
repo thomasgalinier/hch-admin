@@ -28,6 +28,8 @@ import {
 import Link from "next/link";
 import DialogUptadateUser from "@/components/DialogUptadateUser";
 import { Dialog, DialogTrigger } from "@/components/ui/dialog";
+import {ToastAction} from "@/components/ui/toast";
+import {toast} from "@/hooks/use-toast";
 
 
 const Comptes = () => {
@@ -39,6 +41,20 @@ const Comptes = () => {
   const deleteUserMutation = useMutation({
     mutationFn: (id: string) => deleteUser(cookies.token, id),
     mutationKey: ["delete", "user"],
+    onSuccess: (data) => {
+      // Show a success toast when the dashboard is successfully created
+      data.error
+          ? toast({
+            title: "Erreur lors de la création du user",
+            action: <ToastAction altText="Close">OK</ToastAction>,
+            variant: "destructive",
+          })
+          : toast({
+            title: "User crée avec succés",
+            action: <ToastAction altText="Close">OK</ToastAction>,
+          });
+      refetch();
+    },
   });
 
   const columns: ColumnDef<UserType>[] = [
