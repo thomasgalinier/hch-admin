@@ -1,3 +1,4 @@
+"use client";
 import {
   Sidebar,
   SidebarContent,
@@ -62,16 +63,6 @@ const items = [
       },
     ],
   },
-  // {
-  //   title: "Liste des comptes",
-  //   url: "/dashboard/comptes",
-  //   icon: Users,
-  // },
-  // {
-  //   title: "Créer un compte",
-  //   url: "/dashboard/comptes/create",
-  //   icon: User,
-  // },
   {
     title: "Carte",
     url: "/dashboard/carte",
@@ -84,8 +75,20 @@ const items = [
   },
   {
     title: "Forfait",
-    url: "/dashboard/forfait",
     icon: EuroIcon,
+    type: "group",
+    children: [
+      {
+        title: "Liste des forfaits",
+        url: "/dashboard/forfait",
+        icon: EuroIcon,
+      },
+      {
+        title: "Créer un forfait",
+        url: "/dashboard/forfait/create",
+        icon: EuroIcon,
+      },
+    ],
   },
 ];
 export function AppSidebar({
