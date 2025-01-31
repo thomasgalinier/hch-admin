@@ -19,14 +19,14 @@ const Layout = ({ children }: Readonly<{ children: React.ReactNode }>) => {
   const [cookies, _setCookie, removeCookie] = useCookies(["token"]);
   const router = useRouter();
 
-  const { data: user, isLoading } = useMe(cookies.token);
+  const { data: user, isFetching } = useMe(cookies.token);
 
   const logout = () => {
     removeCookie("token");
     router.replace("/auth/signin");
   };
-  console.log(isLoading);
-  if (!user && !isLoading) {
+
+  if (!user && !isFetching) {
     router.replace("/auth/signin");
   }
   return (
