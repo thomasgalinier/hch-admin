@@ -27,6 +27,7 @@ const signupAdmin = async (data: AllDataSignUp) => {
   });
   return await response.json();
 };
+
 const getMe = async (token: string): Promise<UserType> => {
   const response = await fetch(`${url}/auth/me`, {
     method: "GET",
@@ -41,6 +42,7 @@ const getMe = async (token: string): Promise<UserType> => {
   }
   return await response.json();
 };
+
 const useMe = (token: string): UseQueryResult<UserType, Error> => {
   return useQuery({
     queryKey: ["me", token],
