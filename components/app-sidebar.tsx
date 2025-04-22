@@ -10,7 +10,6 @@ import {
   SidebarMenuButton,
   SidebarMenuItem,
   SidebarMenuSub,
-  SidebarMenuSubItem,
 } from "@/components/ui/sidebar";
 import {
   LayoutDashboardIcon,
@@ -22,6 +21,7 @@ import {
   EuroIcon,
   User,
   ChevronRight,
+  ShoppingBasket,
 } from "lucide-react";
 import {
   DropdownMenu,
@@ -90,6 +90,21 @@ const items = [
       },
     ],
   },
+  {
+    title: "Produits",
+    type: "group",
+    icon: ShoppingBasket,
+    children: [
+      {
+        title: "Liste des produits",
+        url: "/dashboard/produits",
+      },
+      {
+        title: "Créer un produit",
+        url: "/dashboard/produits/create",
+      },
+    ],
+  },
 ];
 export function AppSidebar({
   user,
@@ -98,7 +113,9 @@ export function AppSidebar({
   user: UserType | undefined;
   logout: () => void;
 }) {
-  const [openGroups, setOpenGroups] = useState<Record<string, boolean>>(JSON.parse(localStorage.getItem("openGroups") ?? "{}"));
+  const [openGroups, setOpenGroups] = useState<Record<string, boolean>>(
+    JSON.parse(localStorage.getItem("openGroups") ?? "{}"),
+  );
   const { isCarte } = useZoneStore();
   useEffect(() => {
     const savedState = localStorage.getItem("openGroups");
@@ -125,34 +142,34 @@ export function AppSidebar({
             <SidebarMenu>
               {items.map((item) => {
                 return item.type === "group" ? (
-                    <Collapsible
-                        className="group/collapsible"
-                        open={openGroups[item.title]}
-                        onOpenChange={() => toggleGroup(item.title)}
-                    >
-                      <SidebarMenuItem>
-                        <CollapsibleTrigger asChild>
-                          <SidebarMenuButton>
-                            <item.icon />
-                            <span>{item.title}</span>
-                            <ChevronRight className="ml-auto transition-transform duration-200 group-data-[state=open]/collapsible:rotate-90" />
-                          </SidebarMenuButton>
-                        </CollapsibleTrigger>
-                        <CollapsibleContent>
-                          <SidebarMenuSub>
-                            {item.children.map((child) => (
-                                <SidebarMenuItem key={child.title}>
-                                  <SidebarMenuButton asChild>
-                                    <a href={child.url}>
-                                      <span>{child.title}</span>
-                                    </a>
-                                  </SidebarMenuButton>
-                                </SidebarMenuItem>
-                            ))}
-                          </SidebarMenuSub>
-                        </CollapsibleContent>
-                      </SidebarMenuItem>
-                    </Collapsible>
+                  <Collapsible
+                    className="group/collapsible"
+                    open={openGroups[item.title]}
+                    onOpenChange={() => toggleGroup(item.title)}
+                  >
+                    <SidebarMenuItem>
+                      <CollapsibleTrigger asChild>
+                        <SidebarMenuButton>
+                          <item.icon />
+                          <span>{item.title}</span>
+                          <ChevronRight className="ml-auto transition-transform duration-200 group-data-[state=open]/collapsible:rotate-90" />
+                        </SidebarMenuButton>
+                      </CollapsibleTrigger>
+                      <CollapsibleContent>
+                        <SidebarMenuSub>
+                          {item.children.map((child) => (
+                            <SidebarMenuItem key={child.title}>
+                              <SidebarMenuButton asChild>
+                                <a href={child.url}>
+                                  <span>{child.title}</span>
+                                </a>
+                              </SidebarMenuButton>
+                            </SidebarMenuItem>
+                          ))}
+                        </SidebarMenuSub>
+                      </CollapsibleContent>
+                    </SidebarMenuItem>
+                  </Collapsible>
                 ) : (
                   <SidebarMenuItem key={item.title}>
                     <SidebarMenuButton asChild>

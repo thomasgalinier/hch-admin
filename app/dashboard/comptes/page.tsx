@@ -45,12 +45,12 @@ const Comptes = () => {
       // Show a success toast when the dashboard is successfully created
       data.error
           ? toast({
-            title: "Erreur lors de la création du user",
+            title: "Erreur lors de la suppression de l'utilisateur",
             action: <ToastAction altText="Close">OK</ToastAction>,
             variant: "destructive",
           })
           : toast({
-            title: "User crée avec succés",
+            title: "Utilisateur supprimé avec succés",
             action: <ToastAction altText="Close">OK</ToastAction>,
           });
       refetch();
@@ -152,7 +152,7 @@ const Comptes = () => {
             </AlertDialogFooter>
           </AlertDialogContent>
         </AlertDialog>
-        <Button variant="secondary" asChild>
+        <Button asChild>
           <Link href={'/dashboard/comptes/create'}>Ajouter</Link>
         </Button>
       </div>
