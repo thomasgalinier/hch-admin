@@ -151,7 +151,7 @@ const CreateProduit = () => {
                   </FormItem>
                 )}
               />
-              <Button>Créer le produit aditionel</Button>
+              <Button>Créer le produit additionnel</Button>
             </form>
           </Form>
         </CardContent>

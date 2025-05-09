@@ -114,7 +114,7 @@ const Comptes = () => {
           </Dialog>
         );
       },
-    },
+    },w
   ];
   const table = useReactTable({
     data,
