@@ -76,7 +76,7 @@ const DialogModificationForfait = ({ forfait, refetch, setDialogUpdate }: { forf
                       render={({field}) => (
                           <FormItem>
                               <FormLabel>Type</FormLabel>
-                              <Select onValueChange={field.onChange}>
+                              <Select onValueChange={field.onChange} value={field.value}>
                                   <FormControl>
                                       <SelectTrigger>
                                           <SelectValue placeholder="Sélectionner un type d'intervention"/>

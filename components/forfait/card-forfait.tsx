@@ -57,7 +57,7 @@ const CardForfait = ({ forfait, refetch }: {forfait: ForfaitType, refetch: () =>
                         <MoreVertical />
                     </DropdownMenuTrigger>
                     <DropdownMenuContent>
-                        <Dialog open={dialogUpdate}>
+                        <Dialog open={dialogUpdate} onOpenChange={setDialogUpdate}>
                             <DialogTrigger asChild onClick={() => setDialogUpdate(true)}>
                                 <DropdownMenuItem onSelect={(e)=> e.preventDefault()}>
                                     <Pen />
