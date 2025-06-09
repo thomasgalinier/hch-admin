@@ -70,7 +70,7 @@ const items = [
   },
   {
     title: "Planing",
-    url: "/dashboard/planing",
+    url: "/dashboard/intervention",
     icon: Calendar,
   },
   {
