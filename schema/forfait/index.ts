@@ -8,6 +8,7 @@ export interface ForfaitType {
     duree: string;
     categorie_velo: string;
     prix: string;
+    formatted_duree: number;
 }
 
 export const ForfaitForm = z.object({

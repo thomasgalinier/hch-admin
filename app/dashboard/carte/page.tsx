@@ -3,7 +3,6 @@ import {
   FeatureGroup,
   MapContainer,
   Polygon,
-  Popup,
   TileLayer,
 } from "react-leaflet";
 import "leaflet/dist/leaflet.css";
@@ -12,7 +11,6 @@ import {useMutation, useQuery, useQueryClient} from "@tanstack/react-query";
 import { zoneGeoSchema } from "@/schema/carte";
 import { createZone, getZone } from "@/service/carte";
 import {useZoneStore} from "@/store/useZoneStore";
-import {cookies} from "next/headers";
 import {useCookies} from "react-cookie";
 
 const CartePage = () => {

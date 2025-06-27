@@ -99,6 +99,17 @@ const updateUser = async (
   });
   return await response.json();
 };
+
+const getClient = async (token: string) => {
+  const response = await fetch(`${url}/auth/client`, {
+    method: "GET",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${token}`,
+    }
+    });
+  return await response.json();
+  }
 export {
   signinAdmin,
   signupAdmin,
@@ -107,4 +118,5 @@ export {
   getTechnicien,
   deleteUser,
   updateUser,
+  getClient
 };

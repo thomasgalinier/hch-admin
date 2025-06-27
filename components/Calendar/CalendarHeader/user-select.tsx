@@ -11,7 +11,6 @@ import { AvatarGroup } from "@/components/avatar-group";
 
 export function UserSelect() {
   const { users, selectedUserId } = useCalendar();
-    console.log(selectedUserId)
   return (
     // @ts-ignore
     <Select value={selectedUserId}>
@@ -37,13 +36,13 @@ export function UserSelect() {
           <p className="truncate">Tous</p>
             </div>
         </SelectItem>
-        {users.map(
+        {users?.map(
           (
             user, // @ts-ignore
           ) => (
             <SelectItem
               key={user.id}
-              value={user?.id}
+              value={user.id ?? ""}
               className="flex-1 cursor-pointer"
             >
               <div className="flex items-center gap-2">

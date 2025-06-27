@@ -44,8 +44,7 @@ import {log} from "node:util";
 
 const CarteSidebar = () => {
   const { zoneSelected, setZoneSelected } = useZoneStore();
-  console.log(zoneSelected);
-  console.log(zoneSelected)
+
   const [cookies] = useCookies(["token"]);
   const { data = [], refetch } = useQuery({
     queryFn: () => getZone(cookies.token),
@@ -74,7 +73,6 @@ const CarteSidebar = () => {
   };
   const handleSave = (zone: zoneGeoSchema) => {
     mutation.mutate({ id: zone.id, zone });
-    console.log(zone);
     window.location.reload();
   };
   const deleteZoneMutation = useMutation({
@@ -93,7 +91,6 @@ const CarteSidebar = () => {
     deleteZoneMutation.mutate(zoneId);
     setZoneSelected(null);
   };
-  console.log(zonesData);
   return (
     <SidebarGroup>
       <SidebarGroupLabel>Carte Action</SidebarGroupLabel>

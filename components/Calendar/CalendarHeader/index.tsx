@@ -26,7 +26,10 @@ import {
 } from "lucide-react";
 import { Separator } from "@/components/ui/separator";
 import { ButtonGroup } from "@/components/button-group";
-import {UserSelect} from "@/components/Calendar/CalendarHeader/user-select";
+import { UserSelect } from "@/components/Calendar/CalendarHeader/user-select";
+import { Dialog, DialogTrigger } from "@/components/ui/dialog";
+import DialogIntervention from "@/components/Calendar/DialogIntervention";
+
 const MotionButton = motion.create(Button);
 export function CalendarHeader() {
   const { view, setView } = useCalendar();
@@ -126,6 +129,12 @@ export function CalendarHeader() {
           </ButtonGroup>
         </div>
         <UserSelect />
+        <Dialog>
+          <DialogTrigger>
+            <Button variant="secondary">Crée une intervention</Button>
+          </DialogTrigger>
+          <DialogIntervention />
+        </Dialog>
       </motion.div>
     </div>
   );

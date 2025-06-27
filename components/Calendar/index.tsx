@@ -4,6 +4,7 @@ import {CalendarHeader} from "@/components/Calendar/CalendarHeader";
 import {useQuery} from "@tanstack/react-query";
 import {getTechnicien} from "@/service/auth";
 import {useCookies} from "react-cookie";
+import {CalendarBody} from "@/components/Calendar/CalendarBody";
 
 export default function Calendar() {
     const [cookies] = useCookies(["token"]);
@@ -12,11 +13,12 @@ export default function Calendar() {
         queryFn: () => getTechnicien(cookies.token),
         queryKey: ["technicien"],
     });
-    console.log(technicienData);
+
     return (
         <CalendarProvider users={technicienData}>
             <div className="w-full">
                 <CalendarHeader />
+                <CalendarBody />
             </div>
         </CalendarProvider>
     )

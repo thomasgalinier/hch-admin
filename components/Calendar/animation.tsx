@@ -21,3 +21,15 @@ export const slideFromRight: Variants = {
     animate: { x: 0, opacity: 1 },
     exit: { x: -20, opacity: 0 },
 };
+export const fadeIn: Variants = {
+    initial: { opacity: 0 },
+    animate: { opacity: 1 },
+    exit: { opacity: 0 },
+};
+export const staggerContainer: Variants = {
+    animate: {
+        transition: {
+            staggerChildren: 0.1,
+        },
+    },
+};
