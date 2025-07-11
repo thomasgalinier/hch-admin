@@ -5,15 +5,19 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { useCalendar } from "@/components/Calendar/contexts/calendar-context";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { AvatarGroup } from "@/components/avatar-group";
+import { useCookies } from "react-cookie";
+import { useTechnicien } from "@/hooks/User/useTechnicien";
+import { useCalendar } from "@/contexts/calendar-context";
 
 export function UserSelect() {
-  const { users, selectedUserId } = useCalendar();
+  const {data: users = []} = useTechnicien();
+  const {selectedUser, handleUserChange} = useCalendar();
+  console.log(selectedUser);
   return (
-    // @ts-ignore
-    <Select value={selectedUserId}>
+    <div>
+    <Select value={selectedUser} onValueChange={handleUserChange}>
       <SelectTrigger className="w-full">
         <SelectValue placeholder="Sélectionnez un utilisateur" />
       </SelectTrigger>
@@ -62,5 +66,6 @@ export function UserSelect() {
         )}
       </SelectContent>
     </Select>
+    </div>
   );
 }

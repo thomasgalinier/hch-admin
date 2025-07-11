@@ -2,23 +2,22 @@ import { Button } from "@/components/ui/button";
 import { motion } from "framer-motion";
 import { Tooltip, TooltipTrigger } from "@/components/ui/tooltip";
 import { buttonHover, transition } from "@/components/Calendar/animation";
-import {useCalendar} from "@/components/Calendar/contexts/calendar-context";
 import {formatDate} from "date-fns";
 import {fr} from "date-fns/locale";
+import { useCalendar } from "@/contexts/calendar-context";
 
 const MotionButton = motion.create(Button);
 export function TodayButton() {
-  const { setSelectedDate } = useCalendar();
   const today = new Date();
-  const handleClick = () => setSelectedDate(today);
+  const { handleToday } = useCalendar();
   return (
     <MotionButton
       variant="outline"
       className="flex h-14 w-14 flex-col items-center justify-center p-0 text-center"
       variants={buttonHover}
-      onClick={handleClick}
       whileHover="hover"
       whileTap="tap"
+      onClick={handleToday}
       transition={transition}
     >
       <motion.span

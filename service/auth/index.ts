@@ -63,7 +63,7 @@ const getAll = async (token: { token?: any }) => {
   return await response.json();
 };
 
-const getTechnicien = async (token: { token?: any }) => {
+async function getTechnicien  (token: string): Promise<UserType[]> {
   const response = await fetch(`${url}/auth/technicien`, {
     method: "GET",
     headers: {

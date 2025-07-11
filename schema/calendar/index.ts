@@ -12,3 +12,4 @@ export type ModelType = {
     nom: string;
     duree: number;
 };
+export type ViewType = "month" | "week" | "day" | "list";
