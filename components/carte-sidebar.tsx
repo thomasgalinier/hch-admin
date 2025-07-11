@@ -52,6 +52,7 @@ const CarteSidebar = () => {
     queryKey: ["zone"],
   });
   const [zonesData, setZonesData] = useState<zoneGeoSchema[]>(data);
+  console.log(zonesData);
   const mutation = useMutation({
     mutationFn: (data: { id?: string; zone: zoneGeoSchema }) =>
       updateZone(data),
@@ -74,8 +75,7 @@ const CarteSidebar = () => {
   };
   const handleSave = (zone: zoneGeoSchema) => {
     mutation.mutate({ id: zone.id, zone });
-    console.log(zone);
-    window.location.reload();
+
   };
   const deleteZoneMutation = useMutation({
     mutationFn: (id: string) => deleteZone(id),
@@ -86,6 +86,7 @@ const CarteSidebar = () => {
   });
   useEffect(() => {
     refetch();
+    console.log({ data });
     setZonesData(data);
   }, [data]);
   const handleDelete = (zoneId?: string) => {
@@ -98,7 +99,7 @@ const CarteSidebar = () => {
     <SidebarGroup>
       <SidebarGroupLabel>Carte Action</SidebarGroupLabel>
       <SidebarGroupContent className="flex flex-col gap-4">
-        {zonesData.map((zone: zoneGeoSchema) => (
+        {zonesData?.map((zone: zoneGeoSchema) => (
           <Collapsible
             key={zone.id}
             className="group/collapsible"

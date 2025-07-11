@@ -39,6 +39,7 @@ import {
   CollapsibleTrigger,
 } from "@/components/ui/collapsible";
 import { useEffect, useState } from "react";
+import { useLocalstorage } from "@/hooks/use-localstorage";
 
 const items = [
   {
@@ -113,20 +114,21 @@ export function AppSidebar({
   user: UserType | undefined;
   logout: () => void;
 }) {
-  const [openGroups, setOpenGroups] = useState<Record<string, boolean>>(
-    JSON.parse(localStorage.getItem("openGroups") ?? "{}"),
+  const [openGroups, setOpenGroups] = useLocalstorage<Record<string, boolean>>(
+    "openGroups",
+    {},
   );
   const { isCarte } = useZoneStore();
-  useEffect(() => {
-    const savedState = localStorage.getItem("openGroups");
-    console.log(savedState);
-    if (savedState) {
-      setOpenGroups(JSON.parse(savedState));
-    }
-  }, []);
-  useEffect(() => {
-    localStorage.setItem("openGroups", JSON.stringify(openGroups));
-  }, [openGroups]);
+  // useEffect(() => {
+  //   const savedState = localStorage.getItem("openGroups");
+  //   console.log(savedState);
+  //   if (savedState) {
+  //     setOpenGroups(JSON.parse(savedState));
+  //   }
+  // }, []);
+  // useEffect(() => {
+  //   localStorage.setItem("openGroups", JSON.stringify(openGroups));
+  // }, [openGroups]);
   const toggleGroup = (title: string) => {
     setOpenGroups((prev) => ({
       ...prev,
